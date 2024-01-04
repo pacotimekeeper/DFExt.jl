@@ -12,7 +12,7 @@ include("excel.jl")
 include("jld2.jl")
 
 export to_excel
-export ffill, fill_missing_headers
+export ffill
 
 export concat_columns
 export response_content
@@ -22,16 +22,6 @@ export read_csv, to_csv
 export read_jld2, to_jld2
 
 ffill(v) = v[accumulate(max, [i*!ismissing(v[i]) for i in 1:length(v)], init=1)]
-
-function fill_missing_headers(headers)
-    count = 1
-    for (index, value) in enumerate(headers)
-        if value == ""
-            headers[index] = "missing_"*string(count)
-            count += 1
-        end
-    end
-end
 
 function concat_columns(df::DataFrame, column_names::Union{Vector{Symbol}, Vector{String}}, new_column_name::Symbol)::DataFrame
     df[:, new_column_name] = map(eachrow(df)) do row
