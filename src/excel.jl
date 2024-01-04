@@ -28,7 +28,7 @@ function read_excels(dir::AbstractString; sheet_name::Union{AbstractString, Int6
     return vcat(df_vector..., cols:union)
 end
 
-function to_excel(df::DataFrame, file_name::AbstractString)
+function to_excel(file_name::AbstractString, df::DataFrame)
     XLSX.writetable(file_name, df, overwrite=true)
 end
 
