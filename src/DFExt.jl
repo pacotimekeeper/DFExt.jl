@@ -4,7 +4,7 @@ module DFExt
 using DataFrames, CSV, XLSX, JLD2
 import PyCall
 using Base.Threads
-
+import WebTools:read_html
 # using Glob
 ## e.g., export JULIA_NUM_THREADS=4 in the terminal before starting Julia OR set JULIA_NUM_THREADS=4 in the Windows command prompt).
 include("csv.jl")
@@ -15,8 +15,7 @@ export to_excel
 export ffill
 
 export concat_columns
-export response_content
-
+export read_html
 export read_excel, read_excels, to_excel, read_excel_in_chunks
 export read_csv, to_csv
 export read_jld2, to_jld2
