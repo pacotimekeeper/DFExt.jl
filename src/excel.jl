@@ -1,5 +1,21 @@
 
 
+function readExcel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
+    if endswith(file, "xls")
+        pd = PyCall.pyimport("pandas")
+        pydf = pd.read_excel(file, 0)
+        DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
+    else
+        if infer_eltypes
+            DataFrame(XLSX.readtable(file, sheet_name))
+        else
+            xf = XLSX.readxlsx(file)
+            sheet = xf[sheet_name]
+            XLSX.eachtablerow(sheet) |> DataFrames.DataFrame
+        end
+    end
+end
+
 function read_excel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
     if endswith(file, "xls")
         pd = PyCall.pyimport("pandas")

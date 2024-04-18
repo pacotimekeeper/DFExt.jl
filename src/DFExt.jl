@@ -19,6 +19,7 @@ export read_html
 export read_excel, read_excels, to_excel, read_excel_in_chunks
 export read_csv, to_csv
 export read_jld2, to_jld2
+export readExcel
 
 ffill(v) = v[accumulate(max, [i*!ismissing(v[i]) for i in 1:length(v)], init=1)]
 
