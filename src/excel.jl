@@ -16,6 +16,10 @@ function readExcel(file::AbstractString; sheet_name::Union{AbstractString, Int64
     end
 end
 
+function toExcel(file_name::AbstractString, df::DataFrame)
+    XLSX.writetable(file_name, df, overwrite=true)
+end
+
 function read_excel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
     if endswith(file, "xls")
         pd = PyCall.pyimport("pandas")
