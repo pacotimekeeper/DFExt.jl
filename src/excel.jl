@@ -1,25 +1,5 @@
 
 
-function readExcel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
-    if endswith(file, "xls")
-        pd = PyCall.pyimport("pandas")
-        pydf = pd.read_excel(file, 0)
-        DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
-    else
-        if infer_eltypes
-            DataFrame(XLSX.readtable(file, sheet_name))
-        else
-            xf = XLSX.readxlsx(file)
-            sheet = xf[sheet_name]
-            XLSX.eachtablerow(sheet) |> DataFrames.DataFrame
-        end
-    end
-end
-
-function toExcel(file_name::AbstractString, df::DataFrame)
-    XLSX.writetable(file_name, df, overwrite=true)
-end
-
 function read_excel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
     if endswith(file, "xls")
         pd = PyCall.pyimport("pandas")
@@ -48,11 +28,6 @@ function read_excels(dir::AbstractString; sheet_name::Union{AbstractString, Int6
     return vcat(df_vector..., cols:union)
 end
 
-function to_excel(file_name::AbstractString, df::DataFrame)
-    XLSX.writetable(file_name, df, overwrite=true)
-end
-
-
 function read_excel_in_chunks(file_path::String, sheet_name::String, chunk_size::Int=1000)::DataFrame
     xls = XLSX.readxlsx(file_path)
     sheet = xls[sheet_name]
@@ -76,4 +51,29 @@ function readbatchxl(path::AbstractString, sheetname::String, skiprows::Int)
     df = vcat(dfs...)
     names!(df, colnames, makeunique = true)
     return df
+end
+
+function to_excel(file_name::AbstractString, df::DataFrame)
+    XLSX.writetable(file_name, df, overwrite=true)
+end
+
+
+function readExcel(file::AbstractString; sheet_name::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
+    if endswith(file, "xls")
+        pd = PyCall.pyimport("pandas")
+        pydf = pd.read_excel(file, 0)
+        DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
+    else
+        if infer_eltypes
+            DataFrame(XLSX.readtable(file, sheet_name))
+        else
+            xf = XLSX.readxlsx(file)
+            sheet = xf[sheet_name]
+            XLSX.eachtablerow(sheet) |> DataFrames.DataFrame
+        end
+    end
+end
+
+function toExcel(file_name::AbstractString, df::DataFrame)
+    XLSX.writetable(file_name, df, overwrite=true)
 end
