@@ -58,14 +58,17 @@ function to_excel(source::AbstractString, df::DataFrame)
 end
 
 
-function readExcel(source::AbstractString; sheetName::Union{AbstractString, Int64}=1, first_row=nothing, infer_eltypes=false)::DataFrame
+function readExcel(source::AbstractString; sheetName::Union{AbstractString, Int64}=1, 
+        first_row::Union{Nothing, Int} = nothing, 
+        infer_eltypes::Bool=false)::DataFrame
+
     if endswith(source, "xls")
         pd = PyCall.pyimport("pandas")
         pydf = pd.read_excel(source, 0)
         DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
     else
-        if infer_eltypes
-            DataFrame(XLSX.readtable(source, sheetName))
+        if inferEltypes
+            DataFrame(XLSX.readtable(source, sheetName; first_row = firstRow, infer_eltypes = inferEltypes))
         else
             xf = XLSX.readxlsx(source)
             sheet = xf[sheetName]
