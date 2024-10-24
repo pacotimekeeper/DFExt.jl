@@ -1,7 +1,7 @@
 name = "DFExt"
 uuid = "2ebabd8a-cedd-4813-a5cc-cb56fda28c08"
 authors = ["Paco Ho"]
-version = "1.11.0-DEV"
+version = ">=1.11.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
