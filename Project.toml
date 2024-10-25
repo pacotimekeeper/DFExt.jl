@@ -1,7 +1,7 @@
 name = "DFExt"
 uuid = "2ebabd8a-cedd-4813-a5cc-cb56fda28c08"
 authors = ["Paco Ho"]
-version = "1.11.0"
+version = "0.1.0"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
@@ -20,5 +20,5 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 [targets]
 test = ["Test"]
 
-[sources]
-WebTools = {url="https://github.com/pacotimekeeper/WebTools.jl.git"}
+# [sources]
+# WebTools = {url="https://github.com/pacotimekeeper/WebTools.jl.git"}
