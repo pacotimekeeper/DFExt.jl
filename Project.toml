@@ -12,7 +12,7 @@ WebTools = "27fda2ff-bbf2-488c-ae6b-41176655c1cd"
 XLSX = "fdbf4ff8-1666-58a4-91e7-1b58723a45e0"
 
 [compat]
-WebTools = "0.1.0"
+WebTools = ">=0.1.0"
 julia = "1"
 
 [extras]
