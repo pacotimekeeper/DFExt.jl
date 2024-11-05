@@ -18,6 +18,7 @@ export ffill, concatColumns
 export read_csv, to_csv, readCSV, toCSV
 export read_excel, read_excels, to_excel, read_excel_in_chunks
 export readExcel, toExcel
+export toexcel
 
 export read_jld2, to_jld2, readJLD2, toJLD2
 export htmlTables
