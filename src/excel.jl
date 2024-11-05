@@ -90,3 +90,7 @@ function readexcel(filepath::T, sheetname::T; args...) where T <: AbstractString
         DataFrame(XLSX.readtable(filepath, sheetname; args...))
    end
 end
+
+function toexcel(source::AbstractString, df::DataFrame)
+    XLSX.writetable(source, df, overwrite=true)
+end
