@@ -18,10 +18,11 @@ export ffill, concatColumns
 export read_csv, to_csv, readCSV, toCSV
 export read_excel, read_excels, to_excel, read_excel_in_chunks
 export readExcel, toExcel
+export toexcel
 
 export read_jld2, to_jld2, readJLD2, toJLD2
 export htmlTables
-export readexcel, toexcel
+export readexcel
 
 ffill(v) = v[accumulate(max, [i*!ismissing(v[i]) for i in 1:length(v)], init=1)]
 
@@ -67,6 +68,41 @@ function htmlTables(html::HTMLElement; selector::AbstractString="", startRow=1):
     dfs
 end
 
+
+function htmltables(html::HTMLElement; selector::AbstractString="", startRow=1)::Vector{AbstractDataFrame}
+    function fillMissingHeaders(headers)
+        count = 1
+        for (index, value) in enumerate(headers)
+            if value == ""
+                headers[index] = "missing_"*string(count)
+                count += 1
+            end
+        end
+    end
+    
+    tables = eachmatch(Selector("table$(selector)"), html)
+    dfs = DataFrame[]
+    for table in tables
+        tblrows = eachmatch(sel"tr", table)
+        tblheaders = try
+            text.(tblrows[startRow] |> children)
+        catch
+            continue
+        end
+        
+        fillMissingHeaders(tblheaders)
+        df = DataFrame(map(th-> th => [], tblheaders), makeunique=true) # create emtpy dataframe with colnames
+        
+        for tblrow in tblrows[startRow+1:end]
+            tbldata = text.(tblrow |> children)
+            if length(tbldata) == length(tblheaders)
+                push!(df, tbldata)
+            end
+        end
+        push!(dfs, df)
+    end
+    dfs
+end
 
 # function readHTML(response::HTTP.Messages.Response; selector::AbstractString="", startRow=1)::Vector{AbstractDataFrame}
 #     # content = response_content(response, charset(response))
