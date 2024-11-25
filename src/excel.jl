@@ -82,11 +82,15 @@ function toExcel(source::AbstractString, df::DataFrame)
 end
 
 function readexcel(filepath::T, sheetname::T; args...) where T <: AbstractString
-    if endswith(source, "xls")
+    if endswith(filepath, "xls")
         pd = PyCall.pyimport("pandas")
-        pydf = pd.read_excel(source, 0)
+        pydf = pd.read_excel(filepath, sheet_name=sheetname)
         DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
     else
-        DataFrame(XLSX.readtable(source, sheetname; args...))
-   end
+        DataFrame(XLSX.readtable(filepath, sheetname; args...))
+    end
+end
+
+function toexcel(source::AbstractString, df::DataFrame)
+    XLSX.writetable(source, df, overwrite=true)
 end

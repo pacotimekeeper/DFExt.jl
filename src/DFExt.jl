@@ -21,7 +21,7 @@ export readExcel, toExcel
 
 export read_jld2, to_jld2, readJLD2, toJLD2
 export htmlTables
-export readexcel
+export readexcel, toexcel
 
 ffill(v) = v[accumulate(max, [i*!ismissing(v[i]) for i in 1:length(v)], init=1)]
 
