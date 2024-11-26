@@ -17,6 +17,7 @@ export ffill, concatColumns
 
 export read_csv, to_csv, readCSV, toCSV
 export read_excel, read_excels, to_excel, read_excel_in_chunks
+export readexcel, toexcel
 export readExcel, toExcel
 export toexcel
 
