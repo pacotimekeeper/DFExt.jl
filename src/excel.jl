@@ -84,10 +84,10 @@ end
 function readexcel(filepath::T, sheetname::T; args...) where T <: AbstractString
     if endswith(filepath, "xls")
         pd = PyCall.pyimport("pandas")
-        pydf = pd.read_excel(source, 0)
+        pydf = pd.read_excel(filepath, 0)
         DataFrames.DataFrame([col => collect(pydf[col]) for col in pydf.columns])
     else
-        DataFrame(XLSX.readtable(source, sheetname; args...))
+        DataFrame(XLSX.readtable(filepath, sheetname; args...))
    end
 end
 
