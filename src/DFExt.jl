@@ -1,7 +1,7 @@
 module DFExt
 
 # Write your package code here.
-using DataFrames, CSV, XLSX, JLD2
+using DataFrames, CSV, XLSX, JLD2, Arrow
 using HTTP, Gumbo, Cascadia
 
 import PyCall
@@ -11,7 +11,7 @@ using Base.Threads
 include("csv.jl")
 include("excel.jl")
 include("jld2.jl")
-
+include("arrow.jl")
 
 export ffill, concatColumns
 
@@ -20,7 +20,8 @@ export read_excel, read_excels, to_excel, read_excel_in_chunks
 export readExcel, toExcel
 export toexcel
 
-export read_jld2, to_jld2, readJLD2, toJLD2
+export read_jld2, to_jld2, readJLD2, toJLD2, readjl2, tojld2
+export readarrow, toarrow
 export htmlTables
 export readexcel
 
